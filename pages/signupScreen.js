@@ -23,34 +23,42 @@ export default class Signupscreen extends Component {
     }
   }
   componentDidMount(){
-   
+
   }
-    
+
   onClickListener = (viewId) => {
-      
-    fetch("http://192.168.43.239:1337/users/create/",{
-      method:"POST",
-      body:JSON.stringify({email:this.state.email,password:this.state.password,name:this.state.username}),
-      })
-      .then(res => res.json())
-      .then(
-      async(result) => {
-          if(result.message==="Success"){   
-             AsyncStorage.setItem("userid",result.userid.toString());
-             AsyncStorage.setItem("token",result.token);
-            this.props.navigation.navigate('Homee');
-            
-          }
-          else{
-            alert("Invalid Username and password");
-          }
-            })
-  }
+      let emailRegEx = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+      if(this.state.email === '' || this.state.password === '') {
+          alert('Credentials cannot be empty');
+      } else if(!emailRegEx.test(this.state.email)) {
+          alert('Please enter a valid Email Address');
+      } else if(this.state.password.length < 4) {
+          alert('Password must contain atleast 4 characters');
+      } else {
+          fetch("http://192.168.43.239:1337/users/create/",{
+              method:"POST",
+              body:JSON.stringify({email:this.state.email,password:this.state.password,name:this.state.username}),
+          })
+              .then(res => res.json())
+              .then(
+                  async(result) => {
+                      if(result.message==="Success"){
+                          AsyncStorage.setItem("userid",result.userid.toString());
+                          AsyncStorage.setItem("token",result.token);
+                          this.props.navigation.navigate('Homee');
+
+                      }
+                      else{
+                          alert("Invalid Username and password");
+                      }
+                  });
+      }
+  };
 
   render() {
     return (
       <View style={styles.container}>
-          
+
         <View style={styles.inputContainer}>
         <EvilIcons name="user" size={32} style={{paddingLeft:20}} color="black" />
           <TextInput style={styles.inputs}
@@ -65,7 +73,7 @@ export default class Signupscreen extends Component {
               underlineColorAndroid='transparent'
               onChangeText={(email) => this.setState({email})}/>
         </View>
-        
+
         <View style={styles.inputContainer}>
         <Entypo name="key" size={32} style={{paddingLeft:20}} color="black" />
           <TextInput style={styles.inputs}
@@ -73,7 +81,7 @@ export default class Signupscreen extends Component {
               secureTextEntry={true}
               onChangeText={(password) => this.setState({password})}/>
         </View>
-        
+
         <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onClickListener('login')}>
           <Text style={styles.loginText}>Signup</Text>
         </TouchableHighlight>
