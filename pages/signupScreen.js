@@ -37,6 +37,7 @@ export default class Signupscreen extends Component {
       async(result) => {
           if(result.message==="Success"){   
              AsyncStorage.setItem("userid",result.userid.toString());
+             AsyncStorage.setItem("token",result.token);
             this.props.navigation.navigate('Homee');
             
           }
