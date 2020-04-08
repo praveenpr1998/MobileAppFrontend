@@ -25,7 +25,7 @@ const styles=StyleSheet.create({
     },
     brandname:{
         fontSize:25,
-        fontWeight:'bold',
-      
+        fontFamily:'Teko_bold'
+        
     }
 })
