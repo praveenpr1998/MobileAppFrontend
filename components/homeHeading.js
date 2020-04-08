@@ -15,7 +15,7 @@ export default class homeHeading extends Component {
         <View>
         <EvilIcons name="navicon" size={30}  onPress={()=>{this.props.navigation.toggleDrawer()}} /></View>
         <View>
-        <Text style={styles.brandname}>ShoppingCartff</Text></View>
+        <Text style={styles.brandname}>ShoppingCart</Text></View>
         <TouchableOpacity >
         <Entypo name="shopping-cart" onPress={()=>{this.props.navigation.navigate('Cartt')}} size={30} style={{paddingLeft:140}}  />
         </TouchableOpacity>
@@ -29,13 +29,14 @@ const styles=StyleSheet.create({
     header:{
         height:'8%',
         flexDirection:'row',
-        backgroundColor:'#ffb6b6'
+        backgroundColor:'#d3f4ff'
         
     },
     brandname:{
-        fontSize:23,
+        fontSize:27,
         paddingLeft:10,
         fontWeight:'bold',
+        fontFamily:'Teko-Bold'
       
     },
 })
