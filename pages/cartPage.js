@@ -114,7 +114,7 @@ import Homeheading from "../components/homeHeading.js";
   
   //oncick to payment and checkout
   //getting the order api and and initiating payment 
-    orderplaced(orders){
+    orderplaced(){
       fetch("http://192.168.43.239:1337/Orders/orderid/",{
         method:"POST",
         headers:{
@@ -151,6 +151,9 @@ import Homeheading from "../components/homeHeading.js";
           var yyyy=today.getFullYear();
           today=mm + '/' + dd +'/' +yyyy;
           
+          var todayy=new Date();
+          var time = todayy.getHours() + ":" + todayy.getMinutes() + ":" + todayy.getSeconds();
+         
           return(
             RazorpayCheckout.open(options).then(async (data) => {
               
@@ -159,7 +162,7 @@ import Homeheading from "../components/homeHeading.js";
                 headers:{
                   'Content-Type':'application/json'
                 },
-              body:JSON.stringify({orderid:data.razorpay_payment_id,date:today,paymentid:data.razorpay_order_id,signature:data.razorpay_signature,totalamount:this.state.totalAmount,items:this.state.allProducts,userid:await AsyncStorage.getItem("userid")}),
+              body:JSON.stringify({orderid:data.razorpay_payment_id,date:today,time:time,paymentid:data.razorpay_order_id,signature:data.razorpay_signature,totalamount:this.state.totalAmount,items:this.state.allProducts,userid:await AsyncStorage.getItem("userid")}),
               })
               .then(res => res.json())
               .then(
@@ -170,7 +173,7 @@ import Homeheading from "../components/homeHeading.js";
               });
             this.setState({orderId:data.razorpay_payment_id,isModalVisible:true})
             
-            this.props.navigation.navigate('MyOrders')
+            this.props.navigation.navigate('Home')
     
               }).catch((error) => {
             alert(`Error: ${error.code} | ${error.description}`);
@@ -200,7 +203,7 @@ import Homeheading from "../components/homeHeading.js";
                 </View>
                   <View >   
                     <Text style={styles.cardText}>{item.Name}</Text>
-                    <Text style={styles.priceText}>PRICE: ${item.Price}</Text>
+                    <Text style={styles.priceText}>PRICE: ₹ {item.Price}</Text>
                       <TouchableOpacity style={{paddingTop:15}} onPress={()=>{this.removeItem(item.productId)}}>
                         <Ionicons name="md-remove-circle" size={22} style={{paddingLeft:20}} color="red" />
                       </TouchableOpacity>
@@ -213,10 +216,10 @@ import Homeheading from "../components/homeHeading.js";
           />
 
             <View style={{height:70,flexDirection:'row',backgroundColor:'#fbe4d1'}}>
-              <Text style={styles.totalAmount}>TotalAmount  </Text><Text style={styles.amount}> ${this.state.totalAmount} </Text>
+              <Text style={styles.totalAmount}>TotalAmount  </Text><Text style={styles.amount}> ₹ {this.state.totalAmount} </Text>
             </View>
             <View style={{height:50,backgroundColor:'#f60404',alignItems:'center'}}>
-              <Text style={{fontSize:20,marginTop:10,color:'white'}} onPress={()=>{this.orderplaced(joinedData)}}>Checkout</Text>
+              <Text style={{fontSize:20,marginTop:10,color:'white'}} onPress={()=>{this.orderplaced()}}>Checkout</Text>
             </View>
         </View>
     )
@@ -226,8 +229,7 @@ import Homeheading from "../components/homeHeading.js";
           return(
             
             <View style={{flex:1}}>  
-
-            //Used NavigationEvents to Reload the items when navigating             
+            
                 <NavigationEvents onDidFocus={async ()=>{ fetch("http://192.168.43.239:1337/cartitems?userid="+await AsyncStorage.getItem("userid"))
                 .then(res => res.json())
                 .then(
@@ -267,7 +269,7 @@ import Homeheading from "../components/homeHeading.js";
      height:140,width:30
     },
     cardText:{
-      fontSize:20,
+      fontSize:18,
       fontWeight:'bold'
     },
     priceText:{
