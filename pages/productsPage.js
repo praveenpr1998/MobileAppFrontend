@@ -16,6 +16,7 @@ import {
   import MultiSelect from 'react-native-multiple-select';
   import { Card } from 'react-native-elements';
   import {AsyncStorage} from 'react-native';
+  import { SearchBar } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Homeheading from "../components/homeHeading.js";
 
@@ -79,9 +80,16 @@ export default class productsPage extends Component{
         const { selectedItems } = this.state;
       return(
         
-        <View style={{  marginLeft:3,marginRight:3,paddingTop:10,backgroundColor:"#6b5b95"}}>
-        <TextInput placeholder="     Search Items" style={{paddingBottom:10}} value={this.state.searchValue} onChangeText={(text)=>{this.setState({searchValue:text})}}></TextInput>
-          <MultiSelect
+        <View style={{  paddingTop:10,backgroundColor:"#d3f4ff"}}>
+         <View style={{height:57}}><SearchBar
+        placeholder="Search Products..."
+        onChangeText={(text)=>{this.setState({searchValue:text})}}
+        value={this.state.searchValue}
+        cancelIcon={true}
+    
+        
+      /></View>
+         <MultiSelect
             hideTags
             items={this.state.filteredCat}
             uniqueKey="category"
@@ -136,8 +144,9 @@ export default class productsPage extends Component{
                  <Text style={styles.cardText}>{item.name}</Text>
                  <Text style={styles.priceText}>RS: {item.price}</Text>
               </View>
+              <View>
               <TouchableOpacity style={styles.button}>
-                <Button title='add'color="red" onPress={()=>{this.addItems(item)}}/></TouchableOpacity>
+                <Button title='add'color="red" onPress={()=>{this.addItems(item)}}/></TouchableOpacity></View>
           </Card>
         )} />
         </View>
@@ -162,7 +171,8 @@ const styles = StyleSheet.create({
       justifyContent:'center',
     },
     cardText:{
-    fontSize:17
+    fontSize:17,
+    fontFamily:'SF-UI-Display-Bold'
     },
     textcontent:{
       alignItems:'center',
