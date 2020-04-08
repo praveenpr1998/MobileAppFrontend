@@ -26,7 +26,6 @@ export default class Loginscreen extends Component {
         .then(res => res.json())
         .then(
         (result) => {
-        
             this.setState({allOrders:result});
        
         })
@@ -45,10 +44,11 @@ export default class Loginscreen extends Component {
                             <View style={{flexDirection:'row',height:70,marginTop:5,backgroundColor:'#fde2e2', borderWidth:1,borderColor: '#ddd'}}>
                                 <View>
                                     <Text style={styles.ordertext} onPress={()=>{this.modalDisplay(item.orderid)}}>OrderId: {item.orderid}</Text>
-                                    <Text style={styles.totaltext}>TotalAmount: {item.totalamount}</Text>
+                                    <Text style={styles.totaltext}>TotalAmount: ₹ {(item.totalamount)/100}</Text>
                                 </View>  
                                 <View style={{alignItems:'center',alignContent:'center'}}>
                                     <Text style={styles.date}> {item.date}</Text> 
+                                    <Text style={{paddingLeft:40,paddingTop:10}}>{item.time}</Text>
                                 </View>
                             </View>
                         )} />
@@ -81,11 +81,20 @@ export default class Loginscreen extends Component {
             <Modal isVisible={this.state.isModalVisible}>
             <View style={{flex: 1,marginTop:150,marginLeft:10,backgroundColor:'white',height:'50%',marginBottom:250,width:300}}>
              
-               <View style={{alignItems:'center'}}><Text style={styles.ordertext} >{this.state.modalDisplaydata.orderid}</Text></View>
+               <View style={{alignItems:'center'}}>
+                   <Text styles={styles.detailstext}>Details</Text>
+                   <Text style={styles.ordertext} >{this.state.modalDisplaydata.orderid}</Text></View>
                <View style={{flexDirection:'row'}}>
                
-               <Text style={styles.totaltext}>TotalAmount: {this.state.modalDisplaydata.totalamount}</Text>
-                  <Text style={styles.dateinModal}> {this.state.modalDisplaydata.date}</Text> 
+               <Text style={styles.totaltext}>TotalAmount: ₹ {this.state.modalDisplaydata.totalamount}</Text>
+                  <Text style={styles.dateinModal}> {this.state.modalDisplaydata.date}</Text>
+                  </View>
+                  <View style={{flexDirection:'row'}}> 
+                  <Text style={styles.paidby}>Paid By: {this.state.modalDisplaydata.method}</Text>
+                     
+                    {(this.state.modalDisplaydata.wallet!==null)?<Text style={styles.mode}>Wallet: {this.state.modalDisplaydata.wallet}</Text>:null}
+                    {(this.state.modalDisplaydata.bank!==null)?<Text style={styles.mode}>Bank: {this.state.modalDisplaydata.bank}</Text>:null}
+                     
                 </View>    
                 <FlatList
                 data={this.state.modalDisplaydata.items}
@@ -118,6 +127,7 @@ export default class Loginscreen extends Component {
 const styles = StyleSheet.create({
 ordertext:{
     fontSize:15 ,
+    fontFamily:'Nunito-Bold',
     color:'#f78259',
     paddingLeft:12,
     paddingTop:12
@@ -126,7 +136,8 @@ totaltext:{
     fontSize:15 ,
     color:'#eb4559',
     paddingLeft:12,
-    paddingTop:10
+    paddingTop:10,
+    fontFamily:'Nunito-Bold'
    
 },date:{
     paddingLeft:60,paddingTop:10
@@ -141,11 +152,31 @@ alignItems:'center'
 },
 cardText:{
     fontSize:17,
-    fontWeight:'bold'
+    fontWeight:'bold',
+    fontFamily:'Teko-Bold'
   },
   priceText:{
     fontSize:13,
     paddingTop:8
     
   },
+  detailstext:{
+      fontSize:17,
+      paddingBottom:10,
+      fontFamily:'Teko-Bold'
+  },
+  paidby:{
+    fontSize:15 ,
+    color:'#eb4559',
+    paddingLeft:12,
+    paddingTop:10,
+    fontFamily:'Nunito-Bold'
+  },
+  mode:{
+    fontSize:15 ,
+    color:'#eb4559',
+    paddingLeft:90,
+    paddingTop:10,
+    fontFamily:'Nunito-Bold'
+  }
 })
