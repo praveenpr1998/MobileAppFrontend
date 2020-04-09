@@ -65,37 +65,25 @@ export default class Loginscreen extends Component {
          this.setState({isModalVisible:true})
        
     }
-    render(){
+
+    modalData(){
         return(
-            <View style={{flex:1}}>
-                <NavigationEvents onDidFocus={async ()=>{   fetch("http://192.168.43.239:1337/Orders?userid="+await AsyncStorage.getItem("userid"))
-                    .then(res => res.json())
-                    .then(
-                    (result) => {
-        
-                         this.setState({allOrders:result});
-       
-                     })}}   /> 
-            <Homeheading navigation={this.props.navigation}/>
-            {this.displayOrders()}
-            <Modal isVisible={this.state.isModalVisible}>
             <View style={{flex: 1,marginTop:150,marginLeft:10,backgroundColor:'white',height:'50%',marginBottom:250,width:300}}>
              
                <View style={{alignItems:'center'}}>
                    <Text styles={styles.detailstext}>Details</Text>
                    <Text style={styles.ordertext} >{this.state.modalDisplaydata.orderid}</Text></View>
-               <View style={{flexDirection:'row'}}>
-               
-               <Text style={styles.totaltext}>TotalAmount: ₹ {(this.state.modalDisplaydata.totalamount)/100}</Text>
-                  <Text style={styles.dateinModal}> {this.state.modalDisplaydata.date}</Text>
-                  </View>
+                    <View style={{flexDirection:'row'}}>
+                       <Text style={styles.totaltext}>TotalAmount: ₹ {(this.state.modalDisplaydata.totalamount)/100}</Text>
+                      <Text style={styles.dateinModal}> {this.state.modalDisplaydata.date}</Text>
+                    </View>
                   <View style={{flexDirection:'row'}}> 
-                  <Text style={styles.paidby}>Paid By: {this.state.modalDisplaydata.method}</Text>
+                    <Text style={styles.paidby}>Paid By: {this.state.modalDisplaydata.method}</Text>
                      
                     {(this.state.modalDisplaydata.wallet!==null)?<Text style={styles.mode}>Wallet: {this.state.modalDisplaydata.wallet}</Text>:null}
                     {(this.state.modalDisplaydata.bank!==null)?<Text style={styles.mode}>Bank: {this.state.modalDisplaydata.bank}</Text>:null}
                      
-                </View>    
+                  </View>    
                 <FlatList
                 data={this.state.modalDisplaydata.items}
                 keyExtractor={(item)=>item.id}
@@ -117,6 +105,29 @@ export default class Loginscreen extends Component {
                  />
                 <Button title="OK" onPress={()=>{this.setState({isModalVisible:false})}} />
             </View>
+        )
+    }
+    render(){
+        
+        //Navigations Events is used to retrieve the added items dynamically 
+        //bcoz navigating the pages will not refresh the pages evrytime 
+        //so it is required to be called whenever we navigate to a page  
+        return(
+            <View style={{flex:1}}>
+                <NavigationEvents onDidFocus={async ()=>{   fetch("http://192.168.43.239:1337/Orders?userid="+await AsyncStorage.getItem("userid"))
+                    .then(res => res.json())
+                    .then(
+                    (result) => {
+        
+                         this.setState({allOrders:result});
+       
+                     })}}   /> 
+
+            <Homeheading navigation={this.props.navigation}/>
+
+            {this.displayOrders()}
+            <Modal isVisible={this.state.isModalVisible}>
+            {this.modalData()}
             </Modal>
          </View>
         )
