@@ -6,14 +6,42 @@ import Home from "../pages/productsPage.js";
 import cartPage from "../pages/cartPage.js";
 import Login from "../pages/loginScreen.js";
 import MyOrders from "../pages/MyOrders.js";
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import {  createAppContainer } from 'react-navigation';
+import { Avatar } from 'react-native-elements';
 
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import {  createAppContainer,StackActions,NavigationActions } from 'react-navigation';
+import { cos } from 'react-native-reanimated';
+
+const resetAction = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: 'Login' })],
+});
+let a;
+
+ async function findname (){
+   
+   fetch("http://192.168.43.239:1337/users/finduser/",{
+      method:"POST",
+      body:JSON.stringify({userid:await AsyncStorage.getItem("userid")}),
+    })
+   .then(res => res.json())
+   .then(
+     (result) => {
+        a=result;
+       }) 
+}
 const DrawerWithLogoutButton=(props)=>{
+    {findname()}
     return(
+      
         <ScrollView contentContainerStyle={{flex: 1,  flexDirection: 'column', justifyContent: 'space-between' }}>
         <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
-          <TouchableOpacity style={{paddingTop:50}} onPress={()=>{props.navigation.navigate('Homee')}}>
+        <View style={{height:130,paddingLeft:20,paddingTop:20,flexDirection:'row',backgroundColor:'#d3f4ff'}}>
+          
+          <Avatar size="large" rounded icon={{ name: 'home' }} />
+          <Text style={styles.username}>{a}</Text>
+          </View>
+          <TouchableOpacity style={{paddingTop:30}} onPress={()=>{props.navigation.navigate('Homee')}}>
               <Text style={{fontSize:20,paddingLeft:20}}>Home</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{paddingTop:30}} onPress={()=>{props.navigation.navigate('Cartt')}}>
@@ -23,7 +51,7 @@ const DrawerWithLogoutButton=(props)=>{
               <Text style={{fontSize:20,paddingLeft:20}}>MyOrders</Text>
           </TouchableOpacity>
         </SafeAreaView>
-        <TouchableOpacity onPress={()=>{AsyncStorage.removeItem("userid");props.navigation.navigate('Login')}}>
+        <TouchableOpacity onPress={()=>{AsyncStorage.removeItem("userid");props.navigation.dispatch(resetAction);}}>
           <View style={styles.item}>
             <Text style={styles.label}>Logoutt</Text>
             <MaterialCommunityIcons name="logout" size={32} style={{paddingLeft:20}}  color="black" />
@@ -74,6 +102,14 @@ const DrawerNavigation =createDrawerNavigator({
           icon: {
             width: 24,
             height: 24,
+          },
+          username:{
+            fontSize:25,
+            fontFamily:'Teko-Bold',
+            paddingLeft:20,
+            paddingTop:25,
+            alignContent:'center',
+            color:"#ffaaa5"
           }
       });
     export default DrawerNav;
