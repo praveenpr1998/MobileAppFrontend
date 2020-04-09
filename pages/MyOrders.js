@@ -86,7 +86,7 @@ export default class Loginscreen extends Component {
                    <Text style={styles.ordertext} >{this.state.modalDisplaydata.orderid}</Text></View>
                <View style={{flexDirection:'row'}}>
                
-               <Text style={styles.totaltext}>TotalAmount: ₹ {this.state.modalDisplaydata.totalamount}</Text>
+               <Text style={styles.totaltext}>TotalAmount: ₹ {(this.state.modalDisplaydata.totalamount)/100}</Text>
                   <Text style={styles.dateinModal}> {this.state.modalDisplaydata.date}</Text>
                   </View>
                   <View style={{flexDirection:'row'}}> 
@@ -115,7 +115,7 @@ export default class Loginscreen extends Component {
                         </View>
                 )}
                  />
-                <Button title="Okay" onPress={()=>{this.setState({isModalVisible:false})}} />
+                <Button title="OK" onPress={()=>{this.setState({isModalVisible:false})}} />
             </View>
             </Modal>
          </View>
