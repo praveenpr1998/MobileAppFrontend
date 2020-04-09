@@ -42,9 +42,14 @@ export default class productsPage extends Component{
         .then(res => res.json())
         .then(
         (result) => {
+          //allProducts1 -- a copy of allProducts to avoid errors while filtering
                this.setState({allProducts:result,allProducts1:result});
+               //allCat- unique categories
               const allCat = [...new Set(this.state.allProducts.map(data => data.category))];
-                this.setState({selectedItems:allCat})     
+                this.setState({selectedItems:allCat})
+
+             //changing the selected categories when the user clicks 
+             //a category in multiselect checkbox        
             let uniqueObject=[];
             let newArray=[];
             let objTitle=[];
@@ -79,7 +84,7 @@ export default class productsPage extends Component{
     displayCategories(){
         const { selectedItems } = this.state;
       return(
-        
+        //search bar
         <View style={{  paddingTop:10,backgroundColor:"#d3f4ff"}}>
          <View style={{height:57}}><SearchBar
         placeholder="Search Products..."
@@ -116,11 +121,11 @@ export default class productsPage extends Component{
 
 
     render(){
-        var loop=true;
-        const all=[];
+      // filtering the products if the users searches for any products in search bar
+        const finalData=[];
           this.state.selectedItems.sort().map((Category) => {
             const test=this.state.allProducts1.filter(x => { return x.category === Category });
-            all.push(...test.filter(data => {
+            finalData.push(...test.filter(data => {
               return data.name.toLowerCase().indexOf(this.state.searchValue.toLowerCase()) !== -1;
             }))
            
@@ -130,28 +135,29 @@ export default class productsPage extends Component{
         <View style={{flex:1}}>
           <Homeheading navigation={this.props.navigation}/>
             {this.displayCategories()}
+            
         <View style={{flex:1}}>
-        <FlatList numColumns={2} 
-          keyExtractor={(item)=>item.id} 
-          data={all} 
-          renderItem={({item})=>(
-          <Card style={styles.card}>
-            <View style={{paddingLeft:10}}>
-              <Image
-                style={{width: 110, height: 98}}
-                source={{uri: item.link}}/></View>
-              <View style={styles.textcontent}>   
-                 <Text style={styles.cardText}>{item.name}</Text>
-                 <Text style={styles.priceText}>RS: {item.price}</Text>
-              </View>
-              <View>
-              <TouchableOpacity style={styles.button}>
-                <Button title='add'color="red" onPress={()=>{this.addItems(item)}}/></TouchableOpacity></View>
-          </Card>
-        )} />
+          <FlatList numColumns={2} 
+            keyExtractor={(item)=>item.id} 
+            data={finalData} 
+            renderItem={({item})=>(
+                  <Card style={styles.card}>
+                      <View style={{paddingLeft:10}}>
+                        <Image
+                          style={{width: 110, height: 98}}
+                          source={{uri: item.link}}/></View>
+                            <View style={styles.textcontent}>   
+                                <Text style={styles.cardText}>{item.name}</Text>
+                                <Text style={styles.priceText}>RS: {item.price}</Text>
+                            </View>
+                      <View>
+                        <TouchableOpacity style={styles.button}>
+                        <Button title='add'color="red" onPress={()=>{this.addItems(item)}}/></TouchableOpacity></View>
+                  </Card>
+          )} />
         </View>
           
-         </View>
+      </View>
       );
     }
 }
