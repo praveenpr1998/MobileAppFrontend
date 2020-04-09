@@ -171,9 +171,19 @@ import Homeheading from "../components/homeHeading.js";
                     alert("Unauthorized Usage Need to Login again");
                   }
               });
+             
+            fetch("http://192.168.43.239:1337/cartitems/itemsremoval/",{
+               method:"POST",
+               body:JSON.stringify({userid:await AsyncStorage.getItem("userid")}),
+            })
+            .then(res => res.json())
+            .then(
+              (result) => {
+             }) 
+             
+            this.props.navigation.navigate('Homee');
             this.setState({orderId:data.razorpay_payment_id,isModalVisible:true})
             
-            this.props.navigation.navigate('Home')
     
               }).catch((error) => {
             alert(`Error: ${error.code} | ${error.description}`);
