@@ -29,14 +29,12 @@ import Homeheading from "../components/homeHeading.js";
           isModalVisible:false,
           allData:[],
           allProducts: [],
-          data:[],
           totalAmount:"0",
         }
     }
 
     //remove item in cart by making req to server with product id and userid
     async removeItem(id){
-      
       fetch("http://192.168.43.239:1337/cartitems/remove/",{
       method:"POST",
       body:JSON.stringify({productId:id,userid:await AsyncStorage.getItem("userid")}),
@@ -156,7 +154,8 @@ import Homeheading from "../components/homeHeading.js";
          
           return(
             RazorpayCheckout.open(options).then(async (data) => {
-              
+            
+              //generating a order api  
               fetch("http://192.168.43.239:1337/Orders/add/",{
                 method:"POST",
                 headers:{
@@ -170,7 +169,7 @@ import Homeheading from "../components/homeHeading.js";
                  
               });
 
-              
+          //remove the items of placed order frm cartitems model in backend
             fetch("http://192.168.43.239:1337/cartitems/itemsremoval/",{
                method:"POST",
                body:JSON.stringify({userid:await AsyncStorage.getItem("userid")}),
@@ -196,12 +195,10 @@ import Homeheading from "../components/homeHeading.js";
 
     //diplaying the cartitems of user
   displayCart(){
-    console.log(this.state.allProducts.length)
     return(
       
-        <View style={{flex:1}}>
+      <View style={{flex:1}}>
         {(this.state.allProducts.length!==0)? 
-          
         <FlatList
           data={this.state.allProducts}
           keyExtractor={(item)=>item.id} 
@@ -233,14 +230,17 @@ import Homeheading from "../components/homeHeading.js";
                       </View>
         }
 
-          { (this.state.allProducts.length!==0)?
+    
+      {//to check the length of added items to decide whether to display totalAmount 
+      //and checkout button
+       (this.state.allProducts.length!==0)?
             <View>
-            <View style={{height:70,flexDirection:'row',backgroundColor:'#fbe4d1'}}>
-              <Text style={styles.totalAmount}>TotalAmount  </Text><Text style={styles.amount}> ₹ {this.state.totalAmount} </Text>
-            </View>
-            <View style={{height:50,backgroundColor:'#f60404',alignItems:'center'}}>
-              <Text style={{fontSize:20,marginTop:10,color:'white'}} onPress={()=>{this.orderplaced()}}>Checkout</Text>
-            </View>
+              <View style={{height:70,flexDirection:'row',backgroundColor:'#fbe4d1'}}>
+                <Text style={styles.totalAmount}>TotalAmount  </Text><Text style={styles.amount}> ₹ {this.state.totalAmount} </Text>
+              </View>
+                <View style={{height:50,backgroundColor:'#f60404',alignItems:'center'}}>
+                 <Text style={{fontSize:20,marginTop:10,color:'white'}} onPress={()=>{this.orderplaced()}}>Checkout</Text>
+                </View>
             </View>
             :null} 
         </View>
@@ -248,6 +248,9 @@ import Homeheading from "../components/homeHeading.js";
   }
 
       render(){ 
+        //Navigations Events is used to retrieve the added items dynamically 
+        //bcoz navigating the pages will not refresh the pages evrytime 
+        //so it is required to be called whenever we navigate to a page 
           return(
             
             <View style={{flex:1}}>  
