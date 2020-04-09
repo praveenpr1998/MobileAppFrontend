@@ -175,7 +175,7 @@ cardText:{
   mode:{
     fontSize:15 ,
     color:'#eb4559',
-    paddingLeft:90,
+    paddingLeft:60,
     paddingTop:10,
     fontFamily:'Nunito-Bold'
   }
