@@ -16,7 +16,9 @@ const resetAction = StackActions.reset({
   index: 0,
   actions: [NavigationActions.navigate({ routeName: 'Login' })],
 });
-let a;
+
+//let user -- to store the username for  displaying in drawer navigator
+let user;
 
  async function findname (){
    
@@ -27,7 +29,7 @@ let a;
    .then(res => res.json())
    .then(
      (result) => {
-        a=result;
+        user=result;
        }) 
 }
 const DrawerWithLogoutButton=(props)=>{
@@ -35,28 +37,28 @@ const DrawerWithLogoutButton=(props)=>{
     return(
       
         <ScrollView contentContainerStyle={{flex: 1,  flexDirection: 'column', justifyContent: 'space-between' }}>
-        <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
-        <View style={{height:130,paddingLeft:20,paddingTop:20,flexDirection:'row',backgroundColor:'#d3f4ff'}}>
+          <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+            <View style={{height:130,paddingLeft:20,paddingTop:20,flexDirection:'row',backgroundColor:'#d3f4ff'}}>
           
-          <Avatar size="large" rounded icon={{ name: 'home' }} />
-          <Text style={styles.username}>{a}</Text>
-          </View>
-          <TouchableOpacity style={{paddingTop:30}} onPress={()=>{props.navigation.navigate('Homee')}}>
+              <Avatar size="large" rounded icon={{ name: 'home' }} />
+              <Text style={styles.username}>{user}</Text>
+            </View>
+            <TouchableOpacity style={{paddingTop:30}} onPress={()=>{props.navigation.navigate('Homee')}}>
               <Text style={{fontSize:20,paddingLeft:20}}>Home</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{paddingTop:30}} onPress={()=>{props.navigation.navigate('Cartt')}}>
+            </TouchableOpacity>
+            <TouchableOpacity style={{paddingTop:30}} onPress={()=>{props.navigation.navigate('Cartt')}}>
               <Text style={{fontSize:20,paddingLeft:20}}>Cart</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{paddingTop:30}} onPress={()=>{props.navigation.navigate('MyOrders')}}>
+            </TouchableOpacity>
+            <TouchableOpacity style={{paddingTop:30}} onPress={()=>{props.navigation.navigate('MyOrders')}}>
               <Text style={{fontSize:20,paddingLeft:20}}>MyOrders</Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
         </SafeAreaView>
-        <TouchableOpacity onPress={()=>{AsyncStorage.removeItem("userid");props.navigation.dispatch(resetAction);}}>
-          <View style={styles.item}>
-            <Text style={styles.label}>Logoutt</Text>
-            <MaterialCommunityIcons name="logout" size={32} style={{paddingLeft:20}}  color="black" />
-          </View>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={()=>{AsyncStorage.removeItem("userid");props.navigation.dispatch(resetAction);}}>
+            <View style={styles.item}>
+              <Text style={styles.label}>Logoutt</Text>
+              <MaterialCommunityIcons name="logout" size={32} style={{paddingLeft:20}}  color="black" />
+            </View>
+          </TouchableOpacity>
       </ScrollView>
     )
 }
