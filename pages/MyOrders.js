@@ -33,7 +33,7 @@ export default class Loginscreen extends Component {
 
     displayOrders(){
         return(
-                <View >
+                <View style={{flex:1}}>
                      <View style={styles.orderstext}>
                          <Text style={{fontSize:25,paddingTop:10,paddingBottom:10}}>Orders</Text></View>
            
