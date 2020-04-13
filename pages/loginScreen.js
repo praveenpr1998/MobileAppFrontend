@@ -12,6 +12,8 @@ import {
 import Icon  from 'react-native-vector-icons/MaterialIcons';
 import  Entypo  from 'react-native-vector-icons/Entypo';
 import {AsyncStorage} from 'react-native';
+const GLOBAL = require('../Global');
+
 export default class Loginscreen extends Component {
 
   constructor(props) {
@@ -24,7 +26,7 @@ export default class Loginscreen extends Component {
 
   onClickListener = async() => {
     
-    fetch("http://192.168.43.239:1337/users/login/",{
+    fetch(GLOBAL.BASE_URL+"users/login/",{
       method:"POST",
       body:JSON.stringify({email:this.state.email,password:this.state.password}),
       })
@@ -121,4 +123,4 @@ const styles = StyleSheet.create({
   loginText: {
     color: 'white',
   }
-});
+}); 
