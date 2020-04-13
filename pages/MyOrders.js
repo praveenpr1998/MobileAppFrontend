@@ -14,6 +14,8 @@ import {AsyncStorage} from 'react-native';
 import Modal from 'react-native-modal';
 import Homeheading from "../components/homeHeading.js";
 import { FlatList } from 'react-native-gesture-handler';
+const GLOBAL = require('../Global');
+
 export default class Loginscreen extends Component {
     state={
         allOrders:[],
@@ -22,7 +24,7 @@ export default class Loginscreen extends Component {
     }
 
     async componentDidMount(){
-        fetch("http://192.168.43.239:1337/Orders?userid="+await AsyncStorage.getItem("userid"))
+        fetch(GLOBAL.BASE_URL+"Orders?userid="+await AsyncStorage.getItem("userid"))
         .then(res => res.json())
         .then(
         (result) => {
@@ -114,7 +116,7 @@ export default class Loginscreen extends Component {
         //so it is required to be called whenever we navigate to a page  
         return(
             <View style={{flex:1}}>
-                <NavigationEvents onDidFocus={async ()=>{   fetch("http://192.168.43.239:1337/Orders?userid="+await AsyncStorage.getItem("userid"))
+                <NavigationEvents onDidFocus={async ()=>{   fetch(GLOBAL.BASE_URL+"Orders?userid="+await AsyncStorage.getItem("userid"))
                     .then(res => res.json())
                     .then(
                     (result) => {
