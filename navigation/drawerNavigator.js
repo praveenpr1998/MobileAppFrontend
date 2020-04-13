@@ -2,6 +2,8 @@ import 'react-native-gesture-handler';
 import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity,Image,Button, View, Text,ScrollView,SafeAreaView, AsyncStorage } from 'react-native';
 import  MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
+import  AntDesign  from 'react-native-vector-icons/AntDesign';
+
 import Home from "../pages/productsPage.js";
 import cartPage from "../pages/cartPage.js";
 import Login from "../pages/loginScreen.js";
@@ -40,9 +42,11 @@ const DrawerWithLogoutButton=(props)=>{
         <ScrollView contentContainerStyle={{flex: 1,  flexDirection: 'column', justifyContent: 'space-between' }}>
           <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
             <View style={{height:130,paddingLeft:20,paddingTop:20,flexDirection:'row',backgroundColor:'#d3f4ff'}}>
-          
               <Avatar size="large" rounded icon={{ name: 'home' }} />
               <Text style={styles.username}>{user}</Text>
+              <TouchableOpacity onPress={()=>{props.navigation.closeDrawer()}} style={{paddingLeft:40,paddingBottom:40}}>           
+                   <AntDesign name="closesquare" size={32}   color="black" />
+               </TouchableOpacity>
             </View>
             <TouchableOpacity style={{paddingTop:30}} onPress={()=>{props.navigation.navigate('Homee')}}>
               <Text style={{fontSize:20,paddingLeft:20}}>Home</Text>
