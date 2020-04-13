@@ -19,7 +19,7 @@ import {
   import { SearchBar } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Homeheading from "../components/homeHeading.js";
-
+const GLOBAL = require('../Global');
 
 export default class productsPage extends Component{
     state={
@@ -38,7 +38,7 @@ export default class productsPage extends Component{
   
  
     componentDidMount(){
-    fetch("http://192.168.43.239:1337/products/")
+    fetch(GLOBAL.BASE_URL+"products/")
         .then(res => res.json())
         .then(
         (result) => {
@@ -65,7 +65,7 @@ export default class productsPage extends Component{
     }
 
     async addItems(e){
-      fetch("http://192.168.43.239:1337/cartitems/add/",{
+      fetch(GLOBAL.BASE_URL+"cartitems/add/",{
       method:"POST",
       headers:{
         'Content-Type':'application/json'
