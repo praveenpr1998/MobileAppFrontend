@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Image, View, Text, AsyncStorage,StyleSheet } from 'react-native';
 import { StackActions } from '@react-navigation/native';
 import { NavigationActions } from 'react-navigation';
-import AnimatedLoader from "react-native-animated-loader";
 
 export default class Homescreen extends Component {
   state={visible:true}
