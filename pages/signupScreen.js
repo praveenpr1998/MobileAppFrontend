@@ -43,7 +43,7 @@ export default class Signupscreen extends Component {
             
           }
           else{
-            alert("Invalid Username and password");
+            alert("Email Already Exists");
           }
             })
   }
