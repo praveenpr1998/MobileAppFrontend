@@ -1,5 +1,5 @@
 module.exports = {
    
-    BASE_URL: 'http://192.168.43.239:1337/',
+    BASE_URL: 'http://app.wheelhousecentral.co:1337/',
     
   };
