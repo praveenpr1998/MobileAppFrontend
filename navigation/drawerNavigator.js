@@ -11,6 +11,7 @@ import { Avatar } from 'react-native-elements';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import {  createAppContainer,StackActions,NavigationActions } from 'react-navigation';
 import { cos } from 'react-native-reanimated';
+const GLOBAL = require('../Global');
 
 const resetAction = StackActions.reset({
   index: 0,
@@ -22,7 +23,7 @@ let user;
 
  async function findname (){
    
-   fetch("http://192.168.43.239:1337/users/finduser/",{
+   fetch(GLOBAL.BASE_URL+"users/finduser/",{
       method:"POST",
       body:JSON.stringify({userid:await AsyncStorage.getItem("userid")}),
     })
