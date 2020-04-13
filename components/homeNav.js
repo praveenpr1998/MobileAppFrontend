@@ -9,7 +9,7 @@ export default class Aboutscreen extends Component {
   render() {
     return (
       <View style={styles.header}>
-        <Text style={styles.brandname}>ShoppingCartd</Text>
+        <Text style={styles.brandname}>ShoppingCart</Text>
         
     
       </View>
