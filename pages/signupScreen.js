@@ -13,6 +13,8 @@ import  MaterialIcons  from 'react-native-vector-icons/MaterialIcons';
 import  Entypo  from 'react-native-vector-icons/Entypo';
 import  EvilIcons  from 'react-native-vector-icons/EvilIcons';
 import {AsyncStorage} from 'react-native';
+const GLOBAL = require('../Global');
+
 export default class Signupscreen extends Component {
 
   constructor(props) {
@@ -26,7 +28,7 @@ export default class Signupscreen extends Component {
  
   onClickListener = (viewId) => {
       
-    fetch("http://192.168.43.239:1337/users/create/",{
+    fetch(GLOBAL.BASE_URL+"users/create/",{
       method:"POST",
       body:JSON.stringify({email:this.state.email,password:this.state.password,name:this.state.username}),
       })
