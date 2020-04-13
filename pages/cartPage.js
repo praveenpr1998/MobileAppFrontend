@@ -20,6 +20,7 @@ import  Ionicons  from 'react-native-vector-icons/Ionicons';
 import  AntDesign  from 'react-native-vector-icons/AntDesign';
 import {AsyncStorage} from 'react-native';
 import Homeheading from "../components/homeHeading.js";
+const GLOBAL = require('../Global');
 
   export default class cartPage extends Component{
     constructor(props) {
@@ -35,7 +36,7 @@ import Homeheading from "../components/homeHeading.js";
 
     //remove item in cart by making req to server with product id and userid
     async removeItem(id){
-      fetch("http://192.168.43.239:1337/cartitems/remove/",{
+      fetch(GLOBAL.BASE_URL+"cartitems/remove/",{
       method:"POST",
       body:JSON.stringify({productId:id,userid:await AsyncStorage.getItem("userid")}),
       })
@@ -50,7 +51,7 @@ import Homeheading from "../components/homeHeading.js";
     
     //increment item in cart by making req to server with product id and userid
     async increment(id){
-      fetch("http://192.168.43.239:1337/cartitems/increment/",{
+      fetch(GLOBAL.BASE_URL+"cartitems/increment/",{
         method:"POST",
         body:JSON.stringify({productId:id,userid:await AsyncStorage.getItem("userid")}),
       })
@@ -65,7 +66,7 @@ import Homeheading from "../components/homeHeading.js";
     
     //decrement item in cart by making req to server with product id and userid
    async decrement(id){
-      fetch("http://192.168.43.239:1337/cartitems/decrement/",{
+      fetch(GLOBAL.BASE_URL+"cartitems/decrement/",{
         method:"POST",
         body:JSON.stringify({productId:id,userid:await AsyncStorage.getItem("userid")}),
       })
@@ -79,7 +80,7 @@ import Homeheading from "../components/homeHeading.js";
 
     //getting the totalAmount of cart 
     async totalAmount(){
-      fetch("http://192.168.43.239:1337/cartitems/totalAmount",{
+      fetch(GLOBAL.BASE_URL+"cartitems/totalAmount",{
         method:"POST",
         body:JSON.stringify({userid:await AsyncStorage.getItem("userid")})
       })
@@ -93,7 +94,7 @@ import Homeheading from "../components/homeHeading.js";
     //allProducts -- all the items added in the cart 
     //data -- all the products 
     async componentDidMount(){
-        fetch("http://192.168.43.239:1337/cartitems?userid="+await AsyncStorage.getItem("userid"))
+        fetch(GLOBAL.BASE_URL+"cartitems?userid="+await AsyncStorage.getItem("userid"))
    .then(res => res.json())
    .then(
      (result) => {
@@ -102,7 +103,7 @@ import Homeheading from "../components/homeHeading.js";
        this.totalAmount()
      })
 
-     fetch("http://192.168.43.239:1337/products/")
+     fetch(GLOBAL.BASE_URL+"products/")
         .then(res => res.json())
         .then(
         (result) => {
@@ -113,7 +114,7 @@ import Homeheading from "../components/homeHeading.js";
   //oncick to payment and checkout
   //getting the order api and and initiating payment 
     orderplaced(){
-      fetch("http://192.168.43.239:1337/Orders/orderid/",{
+      fetch(GLOBAL.BASE_URL+"Orders/orderid/",{
         method:"POST",
         headers:{
           'Content-Type':'application/json'
@@ -156,7 +157,7 @@ import Homeheading from "../components/homeHeading.js";
             RazorpayCheckout.open(options).then(async (data) => {
             
               //generating a order api  
-              fetch("http://192.168.43.239:1337/Orders/add/",{
+              fetch(GLOBAL.BASE_URL+"Orders/add/",{
                 method:"POST",
                 headers:{
                   'Content-Type':'application/json'
@@ -170,7 +171,7 @@ import Homeheading from "../components/homeHeading.js";
               });
 
           //remove the items of placed order frm cartitems model in backend
-            fetch("http://192.168.43.239:1337/cartitems/itemsremoval/",{
+            fetch(GLOBAL.BASE_URL+"cartitems/itemsremoval/",{
                method:"POST",
                body:JSON.stringify({userid:await AsyncStorage.getItem("userid")}),
             })
@@ -255,7 +256,7 @@ import Homeheading from "../components/homeHeading.js";
             
             <View style={{flex:1}}>  
             
-                <NavigationEvents onDidFocus={async ()=>{ fetch("http://192.168.43.239:1337/cartitems?userid="+await AsyncStorage.getItem("userid"))
+                <NavigationEvents onDidFocus={async ()=>{ fetch(GLOBAL.BASE_URL+"cartitems?userid="+await AsyncStorage.getItem("userid"))
                 .then(res => res.json())
                 .then(
                 (result) => {
