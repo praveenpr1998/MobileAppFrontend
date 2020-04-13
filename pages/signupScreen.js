@@ -28,7 +28,7 @@ export default class Signupscreen extends Component {
  
   onClickListener = (viewId) => {
       
-    fetch(GLOBAL.BASE_URL+"users/create/",{
+    fetch(GLOBAL.BASE_URL+"users/signup/",{
       method:"POST",
       body:JSON.stringify({email:this.state.email,password:this.state.password,name:this.state.username}),
       })
