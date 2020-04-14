@@ -25,7 +25,14 @@ export default class Loginscreen extends Component {
   }
 
   onClickListener = async() => {
-    
+    let emailRegEx = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+      if(this.state.email === '' || this.state.password === '') {
+          alert('Credentials cannot be empty');
+      } else if(!emailRegEx.test(this.state.email)) {
+          alert('Please enter a valid Email Address');
+      } else if(this.state.password.length < 4) {
+          alert('Password must contain atleast 4 characters');
+      } else {
     fetch(GLOBAL.BASE_URL+"users/login/",{
       method:"POST",
       body:JSON.stringify({email:this.state.email,password:this.state.password}),
@@ -43,6 +50,7 @@ export default class Loginscreen extends Component {
             alert("Invalid Username and password");
           }
             })
+      }
   }
 
   render() {
