@@ -27,7 +27,14 @@ export default class Signupscreen extends Component {
   }
  
   onClickListener = (viewId) => {
-      
+      let emailRegEx = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+      if(this.state.email === '' || this.state.password === '') {
+          alert('Credentials cannot be empty');
+      } else if(!emailRegEx.test(this.state.email)) {
+          alert('Please enter a valid Email Address');
+      } else if(this.state.password.length < 4) {
+          alert('Password must contain atleast 4 characters');
+      } else {
     fetch(GLOBAL.BASE_URL+"users/signup/",{
       method:"POST",
       body:JSON.stringify({email:this.state.email,password:this.state.password,name:this.state.username}),
@@ -46,6 +53,7 @@ export default class Signupscreen extends Component {
             alert("Email Already Exists");
           }
             })
+      }
   }
 
   render() {
